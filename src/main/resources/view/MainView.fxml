@@ -9,7 +9,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.MainController"
-            stylesheets="@../../styles/modern-style.css"
+            stylesheets="@../styles/modern-style.css"
             prefHeight="700.0" prefWidth="1000.0">
     
     <top>
@@ -50,9 +50,7 @@
             </padding>
             
             <!-- Filters Section -->
-            <Button fx:id="toggleFiltersButton" text="Filtres ▶" onAction="#toggleFilters" 
-                    styleClass="section-toggle-button" maxWidth="Infinity"/>
-            
+            <!-- Make sure these elements exist in your FXML file -->
             <VBox fx:id="filtersContainer" spacing="8" styleClass="section-container">
                 <Button text="Noir et Blanc" onAction="#handleGreyFilter" styleClass="tool-button" maxWidth="Infinity"/>
                 <Button text="Sépia" onAction="#handleSepiaFilter" styleClass="tool-button" maxWidth="Infinity"/>
@@ -60,8 +58,7 @@
                 <Button text="Sobel (Contours)" onAction="#handleSobelFilter" styleClass="tool-button" maxWidth="Infinity"/>
             </VBox>
             
-            <!-- Transformations Section -->
-            <Button fx:id="toggleTransformationsButton" text="Transformations ▶" onAction="#toggleTransformations" 
+            <Button fx:id="toggleFiltersButton" text="Filtres ▶" onAction="#toggleFilters" 
                     styleClass="section-toggle-button" maxWidth="Infinity"/>
             
             <VBox fx:id="transformationsContainer" spacing="8" styleClass="section-container">
@@ -70,14 +67,16 @@
                 <Button text="Symétrie Horizontale" onAction="#handleHorizontalSymmetry" styleClass="tool-button" maxWidth="Infinity"/>
             </VBox>
             
-            <!-- Security Section -->
-            <Button fx:id="toggleSecurityButton" text="Sécurité ▶" onAction="#toggleSecurity" 
+            <Button fx:id="toggleTransformationsButton" text="Transformations ▶" onAction="#toggleTransformations" 
                     styleClass="section-toggle-button" maxWidth="Infinity"/>
             
             <VBox fx:id="securityContainer" spacing="8" styleClass="section-container">
                 <Button text="Sécuriser l'image" onAction="#handleEncryptImage" styleClass="security-button" maxWidth="Infinity"/>
                 <Button text="Déchiffrer l'image" onAction="#handleDecryptImage" styleClass="security-button" maxWidth="Infinity"/>
             </VBox>
+            
+            <Button fx:id="toggleSecurityButton" text="Sécurité ▶" onAction="#toggleSecurity" 
+                    styleClass="section-toggle-button" maxWidth="Infinity"/>
         </VBox>
     </right>
     

@@ -10,12 +10,14 @@ import service.MetaDonneesService;
 import service.Rotate;
 import service.filtres.Filtre;
 import java.io.File;
-import java.io.IOException; // Added missing import for IOException
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import service.filtres.ClassFiltres;
 import javafx.scene.control.TextArea;
 
@@ -633,6 +635,97 @@ public class MainController {
                 meta.ajouterTransformation(new Transformation("symétrie", "horizontale"));
                 MetaDonneesService.ajouter(meta);
             }
+        }
+    }
+    
+    // Add these new FXML fields at the top of your class with the other FXML fields
+    @FXML
+    private VBox filtersContainer;
+    
+    @FXML
+    private VBox transformationsContainer;
+    
+    @FXML
+    private VBox securityContainer;
+    
+    @FXML
+    private Button toggleFiltersButton;
+    
+    @FXML
+    private Button toggleTransformationsButton;
+    
+    @FXML
+    private Button toggleSecurityButton;
+    
+    // Add this method to initialize the UI state
+    @FXML
+    public void initialize() {
+        // Initially hide the containers
+        filtersContainer.setVisible(false);
+        filtersContainer.setManaged(false);
+        
+        transformationsContainer.setVisible(false);
+        transformationsContainer.setManaged(false);
+        
+        securityContainer.setVisible(false);
+        securityContainer.setManaged(false);
+    }
+    
+    // Add these methods to toggle visibility of sections
+    @FXML
+    protected void toggleFilters() {
+        boolean isVisible = !filtersContainer.isVisible();
+        filtersContainer.setVisible(isVisible);
+        filtersContainer.setManaged(isVisible);
+        toggleFiltersButton.setText(isVisible ? "Filtres ▼" : "Filtres ▶");
+        
+        // Hide other sections when this one is opened
+        if (isVisible) {
+            transformationsContainer.setVisible(false);
+            transformationsContainer.setManaged(false);
+            toggleTransformationsButton.setText("Transformations ▶");
+            
+            securityContainer.setVisible(false);
+            securityContainer.setManaged(false);
+            toggleSecurityButton.setText("Sécurité ▶");
+        }
+    }
+    
+    @FXML
+    protected void toggleTransformations() {
+        boolean isVisible = !transformationsContainer.isVisible();
+        transformationsContainer.setVisible(isVisible);
+        transformationsContainer.setManaged(isVisible);
+        toggleTransformationsButton.setText(isVisible ? "Transformations ▼" : "Transformations ▶");
+        
+        // Hide other sections when this one is opened
+        if (isVisible) {
+            filtersContainer.setVisible(false);
+            filtersContainer.setManaged(false);
+            toggleFiltersButton.setText("Filtres ▶");
+            
+            securityContainer.setVisible(false);
+            securityContainer.setManaged(false);
+            toggleSecurityButton.setText("Sécurité ▶");
+        }
+    }
+    
+    @FXML
+    protected void toggleSecurity() {
+        boolean isVisible = !securityContainer.isVisible();
+        securityContainer.setVisible(isVisible);
+        securityContainer.setManaged(isVisible);
+        toggleSecurityButton.setText(isVisible ? "Sécurité ▼" : "Sécurité ▶");
+        
+        // Hide other sections when this one is opened
+        if (isVisible) {
+            filtersContainer.setVisible(false);
+            filtersContainer.setManaged(false);
+            toggleFiltersButton.setText("Filtres ▶");
+            
+            transformationsContainer.setVisible(false);
+            transformationsContainer.setManaged(false);
+            toggleTransformationsButton.setText("Transformations ▶");
         }
     }
 }
