@@ -1,0 +1,3 @@
+<!-- Add these buttons in your existing layout, for example in a VBox or HBox -->
+<Button text="Encrypter l'image" onAction="#handleEncryptImage" />
+<Button text="Décrypter l'image" onAction="#handleDecryptImage" />

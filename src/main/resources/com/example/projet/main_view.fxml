@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.MainController" style="-fx-background-color: #000000;" >
+
+    <HBox alignment="CENTER" spacing="8.0" style="-fx-background-color: #000000; ">
+        <Button text="Choisir une image" onAction="#handleChooseImage" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px; " />
+        <Button text="Réinitialiser" onAction="#handleResetImage" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px; " />
+        <Button text="Rotation" onAction="#handleRotation" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px; " />
+        <Button text="RGB" onAction="#handleSwapFilter" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="8.0" style="-fx-background-color: #000000; ">
+        <Button text="Noir et blanc" onAction="#handleGreyFilter" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
+        <Button text="Sepia" onAction="#handleSepiaFilter" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;"/>
+        <Button text="Sobel" onAction="#handleSobelFilter" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
+        <!-- Add these buttons to your existing layout, for example in a VBox, HBox, or ToolBar -->
+        <Button text="Afficher Métadonnées" onAction="#handleShowMetadata" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
+        <Button text="Encrypter l'image" onAction="#handleEncryptImage" />
+        <Button text="Décrypter l'image" onAction="#handleDecryptImage" />
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="8.0" style="-fx-background-color: #000000; ">
+        <Label text="Tag:" style="-fx-text-fill: white;" />
+        <TextField fx:id="tagTextField" promptText="Entrez un tag" style="-fx-pref-width: 200px;" />
+        <Button text="Ajouter un tag" onAction="#handleAddTag" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
+        <Button text="Sauvegarder les tags" onAction="#handleSaveTags" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="8.0" style="-fx-background-color: #000000; ">
+        <Label text="Recherche:" style="-fx-text-fill: white;" />
+        <TextField fx:id="searchTextField" promptText="Rechercher par tag" style="-fx-pref-width: 200px;" />
+        <Button text="Chercher par tag" onAction="#handleSearchByTag" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
+    </HBox>
+
+    <ImageView fx:id="imageView" preserveRatio="true" fitHeight="400" fitWidth="500" />
+</VBox>
