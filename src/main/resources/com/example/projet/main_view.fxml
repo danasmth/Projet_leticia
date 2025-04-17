@@ -6,10 +6,12 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 
+<!-- Update the stylesheets attribute to point to the correct location -->
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.MainController"
-            stylesheets="@../../styles/modern-style.css"
+            stylesheets="@../../../styles/modern-style.css"
+            styleClass="main-container"
             prefHeight="700.0" prefWidth="1000.0">
     
     <top>
@@ -21,8 +23,53 @@
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Éditeur d'Images" styleClass="app-title"/>
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="Ouvrir une image" onAction="#handleChooseImage" styleClass="primary-button"/>
-                <Button text="Réinitialiser" onAction="#handleResetImage" styleClass="secondary-button"/>
+                <!-- For the Open Image button -->
+                <Button text="Ouvrir une image" onAction="#handleChooseImage" styleClass="primary-button">
+                    <graphic>
+                        <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                            <Image url="@../../../icons/open.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                
+                <!-- For the Reset button -->
+                <Button text="Réinitialiser" onAction="#handleResetImage" styleClass="secondary-button">
+                    <graphic>
+                        <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                            <Image url="@../../../icons/reset.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                
+                <!-- For the Filters button -->
+                <Button fx:id="toggleFiltersButton" text="Filtres ▶" onAction="#toggleFilters" 
+                        styleClass="section-toggle-button" maxWidth="Infinity">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                            <Image url="@../../../icons/filter.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                
+                <!-- For the Transformations button -->
+                <Button fx:id="toggleTransformationsButton" text="Transformations ▶" onAction="#toggleTransformations" 
+                        styleClass="section-toggle-button" maxWidth="Infinity">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                            <Image url="@../../../icons/transform.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                
+                <!-- For the Security button -->
+                <Button fx:id="toggleSecurityButton" text="Sécurité ▶" onAction="#toggleSecurity" 
+                        styleClass="section-toggle-button" maxWidth="Infinity">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                            <Image url="@../../../icons/security.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
                 <Button text="Afficher métadonnées" onAction="#handleShowMetadata" styleClass="info-button"/>
             </HBox>
             

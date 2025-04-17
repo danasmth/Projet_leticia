@@ -5,79 +5,147 @@
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.MainController"
             stylesheets="@../styles/modern-style.css"
+            styleClass="main-container"
             prefHeight="700.0" prefWidth="1000.0">
     
     <top>
-        <VBox spacing="10" styleClass="header-container">
+        <VBox spacing="15" styleClass="header-container">
             <padding>
-                <Insets top="15" right="15" bottom="15" left="15"/>
+                <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
             
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Éditeur d'Images" styleClass="app-title"/>
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="logo-container">
+                    <Label text="PhotoStudio" styleClass="app-title"/>
+                    <Label text="Pro" styleClass="app-subtitle"/>
+                </HBox>
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="Ouvrir une image" onAction="#handleChooseImage" styleClass="primary-button"/>
-                <Button text="Réinitialiser" onAction="#handleResetImage" styleClass="secondary-button"/>
-                <Button text="Afficher métadonnées" onAction="#handleShowMetadata" styleClass="info-button"/>
+                <Button text="Ouvrir une image" onAction="#handleChooseImage" styleClass="primary-button">
+                    <graphic>
+                        <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                            <Image url="@../icons/open.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button text="Réinitialiser" onAction="#handleResetImage" styleClass="secondary-button">
+                    <graphic>
+                        <ImageView fitHeight="16" fitWidth="16" preserveRatio="true">
+                            <Image url="@../icons/reset.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
             </HBox>
             
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="Tags:" />
-                <TextField fx:id="tagTextField" promptText="Ajouter un tag" HBox.hgrow="ALWAYS"/>
-                <Button text="Ajouter" onAction="#handleAddTag" styleClass="action-button"/>
-                <Region HBox.hgrow="ALWAYS" />
-                <TextField fx:id="searchTextField" promptText="Rechercher par tag" HBox.hgrow="ALWAYS"/>
-                <Button text="Rechercher" onAction="#handleSearchByTag" styleClass="action-button"/>
+            <HBox spacing="15" alignment="CENTER_LEFT" styleClass="search-container">
+                <HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" styleClass="tag-container">
+                    <Label text="Tags:" styleClass="label-tag"/>
+                    <TextField fx:id="tagTextField" promptText="Ajouter un tag" HBox.hgrow="ALWAYS"/>
+                    <Button text="Ajouter" onAction="#handleAddTag" styleClass="action-button"/>
+                </HBox>
+                <Separator orientation="VERTICAL" />
+                <HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" styleClass="search-box">
+                    <TextField fx:id="searchTextField" promptText="Rechercher par tag" HBox.hgrow="ALWAYS"/>
+                    <Button text="Rechercher" onAction="#handleSearchByTag" styleClass="action-button"/>
+                </HBox>
             </HBox>
         </VBox>
     </top>
     
     <center>
         <StackPane styleClass="image-container">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <effect>
+                <DropShadow color="#00000022" radius="10" spread="0.05"/>
+            </effect>
             <ImageView fx:id="imageView" preserveRatio="true" fitHeight="500" fitWidth="700"/>
         </StackPane>
     </center>
     
     <right>
-        <VBox spacing="10" styleClass="tools-panel">
+        <VBox spacing="15" styleClass="tools-panel">
             <padding>
-                <Insets top="15" right="15" bottom="15" left="15"/>
+                <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
             
+            <Label text="OUTILS D'ÉDITION" styleClass="panel-title"/>
+            
             <!-- Filters Section -->
-            <!-- Make sure these elements exist in your FXML file -->
-            <VBox fx:id="filtersContainer" spacing="8" styleClass="section-container">
+            <Button fx:id="toggleFiltersButton" text="Filtres ▶" onAction="#toggleFilters" 
+                    styleClass="section-toggle-button" maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                        <Image url="@../icons/filter.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            
+            <VBox fx:id="filtersContainer" spacing="10" styleClass="section-container">
                 <Button text="Noir et Blanc" onAction="#handleGreyFilter" styleClass="tool-button" maxWidth="Infinity"/>
                 <Button text="Sépia" onAction="#handleSepiaFilter" styleClass="tool-button" maxWidth="Infinity"/>
                 <Button text="Swap RGB" onAction="#handleSwapFilter" styleClass="tool-button" maxWidth="Infinity"/>
                 <Button text="Sobel (Contours)" onAction="#handleSobelFilter" styleClass="tool-button" maxWidth="Infinity"/>
             </VBox>
             
-            <Button fx:id="toggleFiltersButton" text="Filtres ▶" onAction="#toggleFilters" 
-                    styleClass="section-toggle-button" maxWidth="Infinity"/>
+            <Separator />
             
-            <VBox fx:id="transformationsContainer" spacing="8" styleClass="section-container">
+            <!-- Transformations Section -->
+            <Button fx:id="toggleTransformationsButton" text="Transformations ▶" onAction="#toggleTransformations" 
+                    styleClass="section-toggle-button" maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                        <Image url="@../icons/transform.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            
+            <VBox fx:id="transformationsContainer" spacing="10" styleClass="section-container">
                 <Button text="Rotation 90°" onAction="#handleRotation" styleClass="tool-button" maxWidth="Infinity"/>
                 <Button text="Symétrie Verticale" onAction="#handleVerticalSymmetry" styleClass="tool-button" maxWidth="Infinity"/>
                 <Button text="Symétrie Horizontale" onAction="#handleHorizontalSymmetry" styleClass="tool-button" maxWidth="Infinity"/>
             </VBox>
             
-            <Button fx:id="toggleTransformationsButton" text="Transformations ▶" onAction="#toggleTransformations" 
-                    styleClass="section-toggle-button" maxWidth="Infinity"/>
+            <Separator />
             
-            <VBox fx:id="securityContainer" spacing="8" styleClass="section-container">
+            <!-- Security Section -->
+            <Button fx:id="toggleSecurityButton" text="Sécurité ▶" onAction="#toggleSecurity" 
+                    styleClass="section-toggle-button" maxWidth="Infinity">
+                <graphic>
+                    <ImageView fitHeight="18" fitWidth="18" preserveRatio="true">
+                        <Image url="@../icons/security.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            
+            <VBox fx:id="securityContainer" spacing="10" styleClass="section-container">
                 <Button text="Sécuriser l'image" onAction="#handleEncryptImage" styleClass="security-button" maxWidth="Infinity"/>
                 <Button text="Déchiffrer l'image" onAction="#handleDecryptImage" styleClass="security-button" maxWidth="Infinity"/>
             </VBox>
             
-            <Button fx:id="toggleSecurityButton" text="Sécurité ▶" onAction="#toggleSecurity" 
-                    styleClass="section-toggle-button" maxWidth="Infinity"/>
+            <Region VBox.vgrow="ALWAYS" />
+            
+            <HBox alignment="CENTER">
+                <Button text="À propos" styleClass="about-button"/>
+            </HBox>
         </VBox>
     </right>
+    
+    <bottom>
+        <HBox styleClass="status-bar" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="5" right="15" bottom="5" left="15"/>
+            </padding>
+            <Label text="Prêt" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label text="PhotoStudio Pro v1.0" />
+        </HBox>
+    </bottom>
     
 </BorderPane>
