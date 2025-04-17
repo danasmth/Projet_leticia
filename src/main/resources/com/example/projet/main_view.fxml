@@ -21,7 +21,9 @@
         <Button text="Noir et blanc" onAction="#handleGreyFilter" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
         <Button text="Sepia" onAction="#handleSepiaFilter" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;"/>
         <Button text="Sobel" onAction="#handleSobelFilter" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
-        <!-- Add these buttons to your existing layout, for example in a VBox, HBox, or ToolBar -->
+        <!-- Add these buttons to your existing layout -->
+        <Button text="Symétrie Verticale" onAction="#handleVerticalSymmetry" />
+        <Button text="Symétrie Horizontale" onAction="#handleHorizontalSymmetry" />
         <Button text="Afficher Métadonnées" onAction="#handleShowMetadata" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-pref-width: 150px; -fx-pref-height: 40px;" />
         <Button text="Encrypter l'image" onAction="#handleEncryptImage" />
         <Button text="Décrypter l'image" onAction="#handleDecryptImage" />

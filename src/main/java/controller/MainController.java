@@ -417,8 +417,8 @@ public class MainController {
                 String password = result.get();
                 
                 try {
-                    // Apply the decryption filter (same as encryption since it's reversible)
-                    Image decrypted = encryptImage(imageView.getImage(), password);
+                    // Apply the decryption filter (we need to use decryptImage instead of encryptImage)
+                    Image decrypted = decryptImage(imageView.getImage(), password);
                     imageView.setImage(decrypted);
                     
                     // Save transformation metadata (without the password)
@@ -451,7 +451,6 @@ public class MainController {
         }
     }
     
-    // Method to encrypt/decrypt an image using a password
     private Image encryptImage(Image source, String password) {
         try {
             // Convert the password to a seed using SHA-256
@@ -485,7 +484,7 @@ public class MainController {
                 pixelOrder[i] = temp;
             }
             
-            // Apply the pixel mapping to create the encrypted/decrypted image
+            // Apply the pixel mapping to create the encrypted image
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     int sourceIndex = y * width + x;
@@ -502,7 +501,138 @@ public class MainController {
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Erreur lors du chiffrement/déchiffrement: " + e.getMessage());
+            throw new RuntimeException("Erreur lors du chiffrement: " + e.getMessage());
+        }
+    }
+    
+    // Add the decryption method here
+    private Image decryptImage(Image source, String password) {
+        try {
+            // Convert the password to a seed using SHA-256
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(password.getBytes());
+            
+            // Create a secure random generator with the password hash as seed
+            java.security.SecureRandom random = new java.security.SecureRandom(hashBytes);
+            
+            // Get the image data
+            int width = (int) source.getWidth();
+            int height = (int) source.getHeight();
+            
+            // Create a writable image to store the result
+            javafx.scene.image.WritableImage result = new javafx.scene.image.WritableImage(width, height);
+            javafx.scene.image.PixelReader reader = source.getPixelReader();
+            javafx.scene.image.PixelWriter writer = result.getPixelWriter();
+            
+            // Create arrays to store the pixel mapping
+            int[] pixelOrder = new int[width * height];
+            for (int i = 0; i < pixelOrder.length; i++) {
+                pixelOrder[i] = i;
+            }
+            
+            // Shuffle the pixel order using the secure random generator
+            for (int i = pixelOrder.length - 1; i > 0; i--) {
+                int index = random.nextInt(i + 1);
+                // Swap
+                int temp = pixelOrder[index];
+                pixelOrder[index] = pixelOrder[i];
+                pixelOrder[i] = temp;
+            }
+            
+            // Create the reverse mapping for decryption
+            int[] reverseOrder = new int[pixelOrder.length];
+            for (int i = 0; i < pixelOrder.length; i++) {
+                reverseOrder[pixelOrder[i]] = i;
+            }
+            
+            // Apply the reverse pixel mapping to create the decrypted image
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    int sourceIndex = y * width + x;
+                    int targetIndex = reverseOrder[sourceIndex];
+                    
+                    int targetX = targetIndex % width;
+                    int targetY = targetIndex / width;
+                    
+                    javafx.scene.paint.Color color = reader.getColor(x, y);
+                    writer.setColor(targetX, targetY, color);
+                }
+            }
+            
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erreur lors du déchiffrement: " + e.getMessage());
+        }
+    }
+    
+    @FXML
+    protected void handleVerticalSymmetry() {
+        if (imageView.getImage() != null) {
+            Image image = imageView.getImage();
+            int width = (int) image.getWidth();
+            int height = (int) image.getHeight();
+            
+            javafx.scene.image.WritableImage result = new javafx.scene.image.WritableImage(width, height);
+            javafx.scene.image.PixelReader reader = image.getPixelReader();
+            javafx.scene.image.PixelWriter writer = result.getPixelWriter();
+            
+            // Apply vertical symmetry (flip horizontally)
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    javafx.scene.paint.Color color = reader.getColor(x, y);
+                    writer.setColor(width - 1 - x, y, color);
+                }
+            }
+            
+            imageView.setImage(result);
+            
+            // Save transformation metadata
+            if (currentImageFile != null) {
+                String chemin = currentImageFile.getAbsolutePath();
+                MetaDonnees meta = MetaDonneesService.trouver(chemin);
+                
+                if (meta == null) {
+                    meta = new MetaDonnees(chemin);
+                }
+                meta.ajouterTransformation(new Transformation("symétrie", "verticale"));
+                MetaDonneesService.ajouter(meta);
+            }
+        }
+    }
+    
+    @FXML
+    protected void handleHorizontalSymmetry() {
+        if (imageView.getImage() != null) {
+            Image image = imageView.getImage();
+            int width = (int) image.getWidth();
+            int height = (int) image.getHeight();
+            
+            javafx.scene.image.WritableImage result = new javafx.scene.image.WritableImage(width, height);
+            javafx.scene.image.PixelReader reader = image.getPixelReader();
+            javafx.scene.image.PixelWriter writer = result.getPixelWriter();
+            
+            // Apply horizontal symmetry (flip vertically)
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    javafx.scene.paint.Color color = reader.getColor(x, y);
+                    writer.setColor(x, height - 1 - y, color);
+                }
+            }
+            
+            imageView.setImage(result);
+            
+            // Save transformation metadata
+            if (currentImageFile != null) {
+                String chemin = currentImageFile.getAbsolutePath();
+                MetaDonnees meta = MetaDonneesService.trouver(chemin);
+                
+                if (meta == null) {
+                    meta = new MetaDonnees(chemin);
+                }
+                meta.ajouterTransformation(new Transformation("symétrie", "horizontale"));
+                MetaDonneesService.ajouter(meta);
+            }
         }
     }
 }
